@@ -61,3 +61,35 @@ jobs:
         shell: pwsh
         run: |
           ./scripts-yml/parse-env.ps1
+
+      # Step to display the environment variables on Windows (PowerShell)
+      - name: Show environment variables (PowerShell on Windows)
+        if: startsWith(runner.os, 'Windows')
+        shell: powershell
+        run: |
+          Write-Host "Displaying environment variables (PowerShell):"
+          Get-ChildItem Env: | Where-Object { $_.Name -like 'O_INPUTS_*' } | ForEach-Object { Write-Host "$($_.Name)=$($_.Value)" }
+
+      # Step to display the environment variables on Windows (CMD)
+      - name: Show environment variables (CMD on Windows)
+        if: startsWith(runner.os, 'Windows')
+        shell: cmd
+        run: |
+          echo Displaying environment variables (CMD):
+          set O_INPUTS_
+
+      # Step to display the environment variables on Linux (pwsh)
+      - name: Show environment variables (pwsh on Linux)
+        if: runner.os == 'Linux'
+        shell: pwsh
+        run: |
+          Write-Host "Displaying environment variables (pwsh):"
+          Get-ChildItem Env: | Where-Object { $_.Name -like 'O_INPUTS_*' } | ForEach-Object { Write-Host "$($_.Name)=$($_.Value)" }
+
+      # Step to display the environment variables on Linux (bash)
+      - name: Show environment variables (bash on Linux)
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          echo "Displaying environment variables (bash):"
+          env | grep 'O_INPUTS_'
