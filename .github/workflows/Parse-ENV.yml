@@ -20,10 +20,6 @@ on:
         description: "SSH Hostkey"
         required: false
         default: ""
-      ssh_hostkey:
-        description: "SSH Hostkey"
-        required: false
-        default: ""
       runner:
         description: "Select runner"
         required: true
