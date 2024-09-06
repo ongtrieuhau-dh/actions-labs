@@ -43,7 +43,7 @@ jobs:
         uses: actions/checkout@v4
       # Set environment variables for inputs (cross-platform handling)
       - name: Set environment variables for inputs
-        shell: ${{ runner.os == 'Windows' && 'powershell' || 'bash' }}
+        shell: ${{ inputs.runner }}
         run: |
           echo "INPUTS_JSON=${{ toJson(github.event.inputs) }}" >> $GITHUB_ENV
 
