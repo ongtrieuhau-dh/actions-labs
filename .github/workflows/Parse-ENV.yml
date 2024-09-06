@@ -69,6 +69,7 @@ jobs:
         run: |
           Write-Host "Displaying environment variables (PowerShell):"
           Get-ChildItem Env: | Where-Object { $_.Name -like 'O_INPUTS_*' } | ForEach-Object { Write-Host "$($_.Name)=$($_.Value)" }
+          Get-ChildItem Env: | Where-Object { $_.Name -like 'O_SECRETS_*' } | ForEach-Object { Write-Host "$($_.Name)=$($_.Value)" }
 
       # Step to display the environment variables on Windows (CMD)
       - name: Show environment variables (CMD on Windows)
@@ -77,6 +78,7 @@ jobs:
         run: |
           echo Displaying environment variables (CMD):
           set O_INPUTS_
+          set O_SECRETS_
 
       # Step to display the environment variables on Linux (pwsh)
       - name: Show environment variables (pwsh on Linux)
@@ -85,6 +87,7 @@ jobs:
         run: |
           Write-Host "Displaying environment variables (pwsh):"
           Get-ChildItem Env: | Where-Object { $_.Name -like 'O_INPUTS_*' } | ForEach-Object { Write-Host "$($_.Name)=$($_.Value)" }
+          Get-ChildItem Env: | Where-Object { $_.Name -like 'O_SECRETS_*' } | ForEach-Object { Write-Host "$($_.Name)=$($_.Value)" }
 
       # Step to display the environment variables on Linux (bash)
       - name: Show environment variables (bash on Linux)
@@ -93,3 +96,4 @@ jobs:
         run: |
           echo "Displaying environment variables (bash):"
           env | grep 'O_INPUTS_'
+          env | grep 'O_SECRETS_'
