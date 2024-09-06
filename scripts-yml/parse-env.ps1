@@ -10,11 +10,11 @@ if (-not [string]::IsNullOrEmpty($secretsJson)) {
     foreach ($key in $inputs.PSObject.Properties.Name) {
         $envVarName = ("o_secrets_$($key)").ToUpper()
         $value = $inputs.$key
-        echo "$envVarName=$value"
+        echo "$envVarName=$value" >> $env:GITHUB_ENV
 
         $envVarName2 = ("o_inputs_$($key)").ToUpper()
         $value2 = $inputs.$key
-        echo "$envVarName2=$value2"
+        echo "$envVarName2=$value2" >> $env:GITHUB_ENV
     }
 }
 else {
@@ -32,7 +32,7 @@ if (-not [string]::IsNullOrEmpty($inputsJson)) {
     foreach ($key in $inputs.PSObject.Properties.Name) {
         $envVarName = ("o_inputs_$($key)").ToUpper()
         $value = $inputs.$key
-        echo "$envVarName=$value"
+        echo "$envVarName=$value" >> $env:GITHUB_ENV
     }
 }
 else {
