@@ -36,8 +36,8 @@ on:
           - "ubuntu-20.04"
 jobs:
   Parse-ENV:
-    name: Parse-ENV ${{ inputs.runner }}
-    runs-on: ${{ inputs.runner }}
+    name: Parse-ENV ${{ inputs.runner != '' && inputs.runner || 'windows-latest' }}
+    runs-on: ${{ inputs.runner != '' && inputs.runner || 'windows-latest' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
