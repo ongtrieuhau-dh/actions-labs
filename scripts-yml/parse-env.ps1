@@ -10,11 +10,25 @@ if (-not [string]::IsNullOrEmpty($secretsJson)) {
     foreach ($key in $inputs.PSObject.Properties.Name) {
         $envVarName = ("o_secrets_$($key)").ToUpper()
         $value = $inputs.$key
-        echo "$envVarName=$value" >> $env:GITHUB_ENV
+        # Xử lý giá trị trước khi ghi vào GITHUB_ENV để tránh ký tự không hợp lệ
+        if ($value -notmatch '\*\*\*') {
+            # Ghi biến môi trường vào $GITHUB_ENV
+            echo "$envVarName=$value" >> $env:GITHUB_ENV
+        }
+        else {
+            Write-Host "Skipped setting $envVarName due to invalid value format."
+        }
 
         $envVarName2 = ("o_inputs_$($key)").ToUpper()
         $value2 = $inputs.$key
-        echo "$envVarName2=$value2" >> $env:GITHUB_ENV
+        # Xử lý giá trị trước khi ghi vào GITHUB_ENV để tránh ký tự không hợp lệ
+        if ($value2 -notmatch '\*\*\*') {
+            # Ghi biến môi trường vào $GITHUB_ENV
+            echo "$envVarName2=$value2" >> $env:GITHUB_ENV
+        }
+        else {
+            Write-Host "Skipped setting $envVarName2 due to invalid value format."
+        }
     }
 }
 else {
@@ -30,9 +44,17 @@ if (-not [string]::IsNullOrEmpty($inputsJson)) {
 
     # Now you can access each input like:
     foreach ($key in $inputs.PSObject.Properties.Name) {
+        
         $envVarName = ("o_inputs_$($key)").ToUpper()
         $value = $inputs.$key
-        echo "$envVarName=$value" >> $env:GITHUB_ENV
+        # Xử lý giá trị trước khi ghi vào GITHUB_ENV để tránh ký tự không hợp lệ
+        if ($value -notmatch '\*\*\*') {
+            # Ghi biến môi trường vào $GITHUB_ENV
+            echo "$envVarName=$value" >> $env:GITHUB_ENV
+        }
+        else {
+            Write-Host "Skipped setting $envVarName due to invalid value format."
+        }
     }
 }
 else {

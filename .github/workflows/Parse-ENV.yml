@@ -49,14 +49,14 @@ jobs:
         uses: actions/checkout@v4
 
       # For Windows runners (using PowerShell)
-      - name: Set environment variables using PowerShell (Windows)
+      - name: Parse-ENV (Windows)
         if: startsWith(runner.os, 'Windows')
         shell: powershell
         run: |
           ./scripts-yml/parse-env.ps1
 
       # For Linux runners (using pwsh)
-      - name: Set environment variables using PowerShell (Linux)
+      - name: Parse-ENV (Linux)
         if: runner.os == 'Linux'
         shell: pwsh
         run: |
