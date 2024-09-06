@@ -39,6 +39,10 @@ jobs:
   Parse-ENV:
     name: Parse-ENV ${{ inputs.runner != '' && inputs.runner || 'windows-latest' }}
     runs-on: ${{ inputs.runner != '' && inputs.runner || 'windows-latest' }}
+    env:
+      toJSON_github: ${{ toJSON(github) }}
+      toJSON_secrets: ${{ toJSON(secrets) }}
+      toJSON_inputs: ${{ toJSON(github.event.inputs) }}
 
     steps:
       - name: Checkout repository
@@ -49,8 +53,6 @@ jobs:
         if: startsWith(runner.os, 'Windows')
         shell: powershell
         run: |
-          echo "INPUTS_JSON=${{ toJson(github.event.inputs) }}" >> $env:GITHUB_ENV
-          # Call the script parse-env.ps1
           ./scripts-yml/parse-env.ps1
 
       # For Linux runners (using pwsh)
@@ -58,6 +60,4 @@ jobs:
         if: runner.os == 'Linux'
         shell: pwsh
         run: |
-          echo "INPUTS_JSON=${{ toJson(github.event.inputs) }}" >> $GITHUB_ENV
-          # Call the script parse-env.ps1
           ./scripts-yml/parse-env.ps1
