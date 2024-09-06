@@ -41,8 +41,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Set environment variables using PowerShell for inputs
-        shell: ${{ runner.os == 'Windows' && 'powershell' || 'pwsh' }}
+      # For Windows runners (using powershell)
+      - name: Set environment variables using PowerShell (Windows)
+        if: startsWith(runner.os, 'Windows')
+        shell: powershell
+        run: |
+          # Call the script parse-env.ps1 based on OS
+          ./scripts-yml/parse-env.ps1
+
+      # For Linux runners (using pwsh)
+      - name: Set environment variables using PowerShell (Linux)
+        if: runner.os == 'Linux'
+        shell: pwsh
         run: |
           # Call the script parse-env.ps1 based on OS
           ./scripts-yml/parse-env.ps1
