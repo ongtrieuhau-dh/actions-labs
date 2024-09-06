@@ -1,4 +1,5 @@
 name: Parse-ENV
+
 on:
   push:
   workflow_dispatch:
@@ -25,34 +26,29 @@ on:
         default: "windows-latest"
         type: choice
         options:
-          - "svr2019-pg"
-          - "svr2019-pg-actions-labs-01"
-          - "svr2019-pg-actions-labs-02"
           - "windows-latest"
           - "windows-2022"
           - "windows-2019"
           - "ubuntu-latest"
           - "ubuntu-22.04"
           - "ubuntu-20.04"
+
 jobs:
   Parse-ENV:
-    name: Parse-ENV ${{ inputs.runner != '' && inputs.runner || 'windows-latest' }}
-    runs-on: ${{ inputs.runner != '' && inputs.runner || 'windows-latest' }}
+    name: Parse-ENV ${{ inputs.runner }}
+    runs-on: ${{ inputs.runner }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      # Set environment variables for inputs (cross-platform handling)
-      - name: Set environment variables for inputs
-        shell: ${{ inputs.runner }}
-        run: |
-          echo "INPUTS_JSON=${{ toJson(github.event.inputs) }}" >> $GITHUB_ENV
 
-      # For Windows runners (using powershell)
+      # For Windows runners (using PowerShell)
       - name: Set environment variables using PowerShell (Windows)
         if: startsWith(runner.os, 'Windows')
         shell: powershell
         run: |
-          # Call the script parse-env.ps1 based on OS
+          echo "INPUTS_JSON=${{ toJson(github.event.inputs) }}" >> $env:GITHUB_ENV
+          # Call the script parse-env.ps1
           ./scripts-yml/parse-env.ps1
 
       # For Linux runners (using pwsh)
@@ -60,5 +56,6 @@ jobs:
         if: runner.os == 'Linux'
         shell: pwsh
         run: |
-          # Call the script parse-env.ps1 based on OS
+          echo "INPUTS_JSON=${{ toJson(github.event.inputs) }}" >> $GITHUB_ENV
+          # Call the script parse-env.ps1
           ./scripts-yml/parse-env.ps1
