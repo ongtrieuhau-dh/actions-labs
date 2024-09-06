@@ -26,7 +26,9 @@ on:
         default: "windows-latest"
         type: choice
         options:
-          - "windows-latest"
+          - "svr2019-pg"
+          - "svr2019-pg-actions-labs-01"
+          - "svr2019-pg-actions-labs-02"
           - "windows-2022"
           - "windows-2019"
           - "ubuntu-latest"
@@ -35,8 +37,8 @@ on:
 
 jobs:
   Parse-ENV:
-    name: Parse-ENV ${{ inputs.runner }}
-    runs-on: ${{ inputs.runner }}
+    name: Parse-ENV ${{ inputs.runner != '' && inputs.runner || 'windows-latest' }}
+    runs-on: ${{ inputs.runner != '' && inputs.runner || 'windows-latest' }}
 
     steps:
       - name: Checkout repository
